@@ -1,0 +1,106 @@
+{
+    "language": "Español",
+    "codigo_lenguaje": "es",
+
+    "appbar_menu": "Menú Principal",
+    "tooltip_menu_navegacion": "Menú de Navegación",
+    "tooltip_ajustes": "Ajustes",
+    "snackbar_cerrar": "Cerrar",
+    "cancelar": "Cancelar",
+    "aceptar": "Aceptar",
+    "tooltip_eliminar_calculo": "Eliminar Cálculo",
+    "tooltip_nuevo_calculo": "Nuevo Cálculo",
+    "tooltip_editar_calculo": "Editar Cálculo",
+    "tooltip_guardar_calculo": "Guardar Cálculo",
+    "calcular": "Calcular",
+    "guardar": "Guardar",
+    "titulo": "Título",
+    "fecha": "Fecha",
+    "observaciones": "Observaciones",
+
+    "fortificar_vino": "Fortificar Vino",
+    "hidratar_vinagre": "Hidratar Vinagre",
+    "historial_fortificaciones": "Historial Fortificaciones",
+    "historial_hidrataciones": "Historial Hidrataciones",
+
+    "volumen_vino_alcoholizar": "Volumen de vino que se desea alcoholizar (litros)",
+    "grado_vino": "Grado del vino a alcoholizar (% Vol)",
+    "grado_deseado": "Grado del vino que se desea (% Vol)",
+    "grado_alcohol_dispone": "Grado del alcohol del que se dispone (% Vol)",
+    "volumen_alcohol_necesario": "Volumen de alcohol necesario (litros)",
+    "datos_fortificacion": "Datos de la Fortificación",
+    "calculo_anadido_bbdd": "El cálculo se ha añadido a la base de datos correctamente",
+    "fortificacion_error1": "El valor del volumen de vino a alcoholizar es requerido",
+    "fortificacion_error2": "El valor del grado del vino a alcoholizar es requerido",
+    "fortificacion_error3": "El valor del grado del vino que se desea es requerido",
+    "fortificacion_error4": "El valor del grado del alcohol del que se dispone es requerido",
+    "fortificacion_error5": "El valor del volumen de vino a alcoholizar debe ser un número entero mayor que 0",
+    "fortificacion_error6": "Ya tiene el vino a {decimal_grado_vino_deseado}º GL. No debe añadir nada",
+    "@fortificacion_error6": {
+        "placeholders": {
+            "decimal_grado_vino_deseado": {
+                "type": "String"
+            }
+        }
+    },
+    "fortificacion_error7": "El grado alcohólico deseado no puede ser menor que el grado del vino a alcoholizar",
+    "fortificacion_error8": "El grado del alcohol del que se dispone no puede ser menor o igual que el grado alcohólico deseado",
+
+    "introduce_datos": "INTRODUCE LOS SIGUIENTES DATOS",
+
+    "titulo_requerido": "El título es requerido",
+    "fortificacion_existente": "Ya existe una fortificación con ese título",
+
+    "calculo_eliminado_bbdd": "'{title}' ha sido eliminado correctamente",
+    "@calculo_eliminado_bbdd": {
+        "placeholders": {
+            "title": {
+                "type": "String"
+            }
+        }
+    },
+
+    "no_observaciones": "No se han proporcionado observaciones",
+    "editado_correctamente": "Se ha editado correctamente",
+
+    "tooltip_eliminar_fortificacion": "Eliminar Fortificación",
+    "tooltip_editar_fortificacion": "Editar Fortificación",
+
+    "volumen_vinagre_hidratar": "Volumen de vinagre que se desea hidratar (litros)",
+    "grado_vinagre": "Grado del vinagre a hidratar (% Vol)",
+    "grado_vinagre_deseado": "Grado del vinagre que se desea (% Vol)",
+    "volumen_agua_necesaria": "Volumen de agua a añadir (litros",
+
+    "datos_hidratacion": "Datos de la Hidratación",
+
+    "hidratacion_error1": "El valor del volumen de vinagre a hidratar es requerido",
+    "hidratacion_error2": "El valor del grado del vinagre a hidratar es requerido",
+    "hidratacion_error3": "El valor del grado del vinagre que se desea es requerido",
+    "hidratacion_error4": "El valor del volumen de vinagre a hidratar debe ser un número entero mayor que 0",
+    "hidratacion_error5": "El valor del grado acético de vinagre deseado debe ser un número entero mayor que 0",
+    "hidratacion_error6": "Ya tiene el vinagre a {decimal_grado_vinagre_deseado}º. No debe añadir nada",
+    "@hidratacion_error6": {
+        "placeholders": {
+            "decimal_grado_vinagre_deseado": {
+                "type": "String"
+            }
+        }
+    },
+    "hidratacion_error7": "El grado acético deseado no puede ser mayor que el grado del vinagre a hidratar",
+
+    "hidratacion_existente": "Ya existe una hidratación con ese título",
+
+    "tooltip_eliminar_hidratacion": "Eliminar Hidratación",
+    "tooltip_editar_hidratacion": "Editar Hidratación",
+
+    "seguro_eliminar": "¿Estás seguro que desea eliminar '{title}'?",
+    "@seguro_eliminar": {
+        "placeholders": {
+            "title": {
+                "type": "String"
+            }
+        }
+    },
+
+    "accion_irreversible": "Esta acción es irreversible"
+}

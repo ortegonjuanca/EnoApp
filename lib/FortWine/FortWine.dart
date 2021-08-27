@@ -1,17 +1,20 @@
 import 'dart:ui';
 
 import 'package:decimal/decimal.dart';
-import 'package:enoapp/Fort.dart';
+import 'package:enoapp/FortWine/Fort.dart';
 import 'package:enoapp/db_enoapp.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:page_transition/page_transition.dart';
 
-import 'HidrVinegar.dart';
+import '../HidrVinegar/HidrVinegar.dart';
+import '../main.dart';
 import 'HistFortWine.dart';
-import 'HistHidrVinegar.dart';
-import 'MyTextFieldDatePicker.dart';
+import '../HidrVinegar/HistHidrVinegar.dart';
+import '../MyTextFieldDatePicker.dart';
+import 'package:enoapp/Globals.dart' as globals;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 var formatter = NumberFormat("###,###.0#", "es_ES");
 
@@ -26,20 +29,6 @@ Decimal decimal_grado_vino_deseado = Decimal.parse("0");
 Decimal decimal_grado_alcohol_dispone = Decimal.parse("0");
 Decimal decimal_volumen_alcohol_necesario = Decimal.parse("0");
 
-void showSnackbar(String text, Color color, BuildContext context) {
-  final snackBar = SnackBar(
-    content: Text(text),
-    backgroundColor: color,
-    action: SnackBarAction(
-      label: 'Cerrar',
-      textColor: Colors.white,
-      onPressed: () {},
-    ),
-  );
-
-  ScaffoldMessenger.of(context).showSnackBar(snackBar);
-}
-
 class FortWine extends StatefulWidget {
   FortWine({Key key}) : super(key: key);
 
@@ -50,11 +39,13 @@ class FortWine extends StatefulWidget {
 class _FortWineState extends State<FortWine> {
 
   var _isVisible;
+  Color _colorBottomIcon;
 
   @override
   initState() {
     super.initState();
     _isVisible = false;
+    _colorBottomIcon = Colors.grey;
   }
 
   @override
@@ -62,21 +53,32 @@ class _FortWineState extends State<FortWine> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Fortificar Vino"),
+        title: Text(AppLocalizations.of(context).fortificar_vino),
         backgroundColor: Color(0xff6f0000),
         leading: IconButton (
             icon:Icon(Icons.arrow_back),
             onPressed: () {Navigator.pop(context);}
             ),
         actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.calendar_today_outlined),
+            tooltip: AppLocalizations.of(context).historial_fortificaciones,
+            onPressed: () {
+              Navigator.push(
+                context,
+                PageTransition(type: PageTransitionType.rightToLeft, child: HistFortWine()),
+              );
+            },
+          ),
           new Visibility(
             visible: _isVisible,
             child: IconButton(
               icon: const Icon(Icons.delete_forever),
-              tooltip: 'Eliminar cálculo',
+              tooltip: AppLocalizations.of(context).tooltip_eliminar_calculo,
               onPressed: () {
                 setState(() {
                   _isVisible = false;
+                  _colorBottomIcon = Colors.grey;
                 });
               },
             ),
@@ -112,7 +114,7 @@ class _FortWineState extends State<FortWine> {
                           shadowColor: Colors.black,
                           elevation: 25,
                           color: Color(0xfff4eea4),
-                          margin: EdgeInsets.only(left: 20, right: 20),
+                          margin: EdgeInsets.only(left: 20, right: 20, top: 15),
                           shape: ContinuousRectangleBorder(
                               borderRadius: BorderRadius.circular(30.0)
                           ),
@@ -124,7 +126,7 @@ class _FortWineState extends State<FortWine> {
                                     flex: 3,
                                     child: Padding(
                                       padding: const EdgeInsets.only(top: 20, bottom: 20, left: 15),
-                                      child: Text("Volumen de vino que se desea alcoholizar (litros)",
+                                      child: Text(AppLocalizations.of(context).volumen_vino_alcoholizar,
                                         style: TextStyle(fontSize: 16)),
                                     )
                                   ),
@@ -139,7 +141,7 @@ class _FortWineState extends State<FortWine> {
                                       flex: 2,
                                       child: Padding(
                                         padding: const EdgeInsets.only(top: 20, bottom: 20, right: 15),
-                                        child: Text(formatter.format(decimal_volumen_vino_alcoholizar.toDouble()) + " litros",
+                                        child: Text(formatter.format(decimal_volumen_vino_alcoholizar.toDouble()) + " L",
                                           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16,)),
                                     )
                                   )
@@ -172,7 +174,7 @@ class _FortWineState extends State<FortWine> {
                                         flex: 3,
                                         child: Padding(
                                           padding: const EdgeInsets.only(top: 20, bottom: 20, left: 15),
-                                          child: Text("Grado del vino a alcoholizar (% Vol)",
+                                          child: Text(AppLocalizations.of(context).grado_vino,
                                               style: TextStyle(fontSize: 16)),
                                         )
                                       ),
@@ -220,7 +222,7 @@ class _FortWineState extends State<FortWine> {
                                           flex: 3,
                                           child: Padding(
                                               padding: const EdgeInsets.only(top: 20, bottom: 20, left: 15),
-                                              child: Text("Grado del vino que se desea (% Vol)",
+                                              child: Text(AppLocalizations.of(context).grado_deseado,
                                                   style: TextStyle(fontSize: 16))
                                             )
                                         ),
@@ -268,7 +270,7 @@ class _FortWineState extends State<FortWine> {
                                           flex: 3,
                                           child: Padding(
                                               padding: const EdgeInsets.only(top: 20, bottom: 20, left: 15),
-                                              child: Text("Grado del alcohol del que se dispone (% Vol)",
+                                              child: Text(AppLocalizations.of(context).grado_alcohol_dispone,
                                                   style: TextStyle(fontSize: 16,))
                                             )
                                         ),
@@ -294,7 +296,7 @@ class _FortWineState extends State<FortWine> {
                         )
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(15),
                     ),
                     new Visibility(
                         visible: _isVisible,
@@ -304,25 +306,39 @@ class _FortWineState extends State<FortWine> {
                                 shadowColor: Colors.black,
                                 elevation: 25,
                                 color: Color(0xfff4eea4),
-                                margin: EdgeInsets.only(left: 50, right: 50, bottom: 40),
+                                margin: EdgeInsets.only(left: 20, right: 20, bottom: 15),
                                 shape: ContinuousRectangleBorder(
                                     borderRadius: BorderRadius.circular(30.0)
                                 ),
-                                child: Padding(
-                                  padding: const EdgeInsets.only(top: 20, bottom: 20, left: 15, right: 15),
-                                  child: RichText(
-                                      textAlign: TextAlign.justify,
-                                      text: TextSpan(
-                                          style: new TextStyle(
-                                            fontSize: 18.0,
-                                            color: Colors.black,
+                                child: IntrinsicHeight(
+                                    child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                        children: <Widget>[
+                                          Flexible(
+                                              flex: 3,
+                                              child: Padding(
+                                                  padding: const EdgeInsets.only(top: 20, bottom: 20, left: 15),
+                                                  child: Text(AppLocalizations.of(context).volumen_alcohol_necesario,
+                                                      style: TextStyle(fontSize: 16,))
+                                              )
                                           ),
-                                          children: <TextSpan>[
-                                            new TextSpan(text: "El volumen de alcohol necesario para obtener un vino de " + formatter.format(decimal_grado_vino_deseado.toDouble()) + "º GL es de "),
-                                            new TextSpan(text: formatter.format(decimal_volumen_alcohol_necesario.toDouble()) + " litros", style: new TextStyle(fontWeight: FontWeight.bold, color: Color(0xff6f0000))),
-                                          ]
-                                      )
-                                  ),
+                                          Padding(
+                                              padding: const EdgeInsets.only(top: 10, bottom: 10),
+                                              child: VerticalDivider(
+                                                thickness: 0.5,
+                                                color: Colors.grey,
+                                              )
+                                          ),
+                                          Flexible(
+                                              flex: 2,
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(top: 20, bottom: 20, right: 15),
+                                                child: Text(formatter.format(decimal_volumen_alcohol_necesario.toDouble()) + " L",
+                                                    style: new TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xff6f0000))),
+                                              )
+                                          )
+                                        ]
+                                    )
                                 )
                             )
                         )
@@ -332,70 +348,122 @@ class _FortWineState extends State<FortWine> {
             )
         )
       ),
-      floatingActionButtonLocation:
-        FloatingActionButtonLocation.centerFloat,
-        floatingActionButton: Padding(
-          padding: const EdgeInsets.only(left: 20, right: 20),
-          child: Stack(
+        bottomNavigationBar: BottomAppBar(
+          color: Color(0xfff4eea4),
+          shape: CircularNotchedRectangle(),
+          notchMargin: 0,
+          child: Row( //children inside bottom appbar
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              new Visibility(
-                visible: _isVisible,
-                child: Align(
-                    alignment: Alignment.bottomLeft,
-                    child: FloatingActionButton(
-                      heroTag: null,
-                      onPressed: () async {
+              Padding(
+                padding: EdgeInsets.only(),
+                child: IconButton(
+                  icon: Icon(Icons.edit, color: _colorBottomIcon),
+                  onPressed: () async {
+                    if(_isVisible) {
+                      _volumen_vino_alcoholizar.text = decimal_volumen_vino_alcoholizar.toString();
+                      _grado_vino_alcoholizar.text = decimal_grado_vino_alcoholizar.toString();
+                      _grado_vino_deseado.text = decimal_grado_vino_deseado.toString();
+                      _grado_alcohol_dispone.text = decimal_grado_alcohol_dispone.toString();
 
-                        _volumen_vino_alcoholizar.text = decimal_volumen_vino_alcoholizar.toString();
-                        _grado_vino_alcoholizar.text = decimal_grado_vino_alcoholizar.toString();
-                        _grado_vino_deseado.text = decimal_grado_vino_deseado.toString();
-                        _grado_alcohol_dispone.text = decimal_grado_alcohol_dispone.toString();
+                      bool is_valid = await Navigator.push(
+                        context,
+                        PageRouteBuilder<bool>(
+                          pageBuilder: (context, animation, secondaryAnimation) => DialogNewCalculation(),
+                          fullscreenDialog: true,
+                          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                            const begin = Offset(1.0, 0.0);
+                            const end = Offset.zero;
+                            const curve = Curves.ease;
 
-                        bool is_valid = await Navigator.push(
-                          context,
-                          PageRouteBuilder<bool>(
-                            pageBuilder: (context, animation, secondaryAnimation) => DialogNewCalculation(),
-                            fullscreenDialog: true,
-                            transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                              const begin = Offset(1.0, 0.0);
-                              const end = Offset.zero;
-                              const curve = Curves.ease;
+                            var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
 
-                              var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+                            return SlideTransition(
+                              position: animation.drive(tween),
+                              child: child,
+                            );
+                          },
+                        ),
+                      );
 
-                              return SlideTransition(
-                                position: animation.drive(tween),
-                                child: child,
-                              );
-                            },
-                          ),
-                        );
+                      if(is_valid == null) is_valid = false;
 
-                        if(is_valid == null) is_valid = false;
+                      if(is_valid){
 
-                        if(is_valid){
+                        decimal_volumen_alcohol_necesario = decimal_volumen_vino_alcoholizar * ((decimal_grado_vino_deseado - decimal_grado_vino_alcoholizar) / (decimal_grado_alcohol_dispone - decimal_grado_vino_deseado));
 
-                          decimal_volumen_alcohol_necesario = decimal_volumen_vino_alcoholizar * ((decimal_grado_vino_deseado - decimal_grado_vino_alcoholizar) / (decimal_grado_alcohol_dispone - decimal_grado_vino_deseado));
-
-                          setState(() {
-                            _isVisible = true;
-                          });
-                        }
-                      },
-                      child: const Icon(Icons.edit),
-                      backgroundColor: Color(0xff6f0000),
-                      tooltip: "Editar valores",
-                    ),
-                )
+                        setState(() {
+                          _isVisible = true;
+                          _colorBottomIcon = Color(0xff6f0000);
+                        });
+                      }
+                    }
+                  },
+                  tooltip: AppLocalizations.of(context).tooltip_editar_calculo,
+                ),
               ),
-              new Visibility(
-                visible: _isVisible,
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: FloatingActionButton(
-                    heroTag: null,
-                    onPressed: () async {
+              Container(
+                  padding: EdgeInsets.only(top: 5, bottom: 5),
+                  height: 50,
+                  child: VerticalDivider(thickness: 0.5 ,color: Colors.grey)
+              ),
+              Padding(
+                padding: EdgeInsets.only(),
+                child: IconButton(
+                  icon: Icon(Icons.add, color: Color(0xff6f0000)),
+                  onPressed: () async {
+                    _volumen_vino_alcoholizar.text = "";
+                    _grado_vino_alcoholizar.text = "";
+                    _grado_vino_deseado.text = "";
+                    _grado_alcohol_dispone.text = "";
 
+                    bool is_valid = await Navigator.push(
+                      context,
+                      PageRouteBuilder<bool>(
+                        pageBuilder: (context, animation, secondaryAnimation) => DialogNewCalculation(),
+                        fullscreenDialog: true,
+                        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                          const begin = Offset(1.0, 0.0);
+                          const end = Offset.zero;
+                          const curve = Curves.ease;
+
+                          var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+                          return SlideTransition(
+                            position: animation.drive(tween),
+                            child: child,
+                          );
+                        },
+                      ),
+                    );
+
+                    if(is_valid == null) is_valid = false;
+
+                    if(is_valid){
+
+                      decimal_volumen_alcohol_necesario = decimal_volumen_vino_alcoholizar * ((decimal_grado_vino_deseado - decimal_grado_vino_alcoholizar) / (decimal_grado_alcohol_dispone - decimal_grado_vino_deseado));
+
+                      setState(() {
+                        _isVisible = true;
+                        _colorBottomIcon = Color(0xff6f0000);
+                      });
+                    }
+                  },
+                  tooltip: AppLocalizations.of(context).tooltip_nuevo_calculo,
+                ),
+              ),
+              Container(
+                  padding: EdgeInsets.only(top: 5, bottom: 5),
+                  height: 50,
+                  child: VerticalDivider(thickness: 0.5 ,color: Colors.grey)
+              ),
+              Padding(
+                padding: EdgeInsets.only(),
+                child: IconButton(
+                  icon: Icon(Icons.save, color: _colorBottomIcon),
+                  onPressed: () async {
+                    if(_isVisible) {
                       bool is_valid = await Navigator.push(
                         context,
                         PageRouteBuilder<bool>(
@@ -416,67 +484,17 @@ class _FortWineState extends State<FortWine> {
                         ),
                       );
 
-                      if(is_valid == null) is_valid = false;
+                      if (is_valid == null) is_valid = false;
 
-                      if(is_valid){
-                        showSnackbar("El cálculo se ha añadido a la base de datos correctamente", Colors.green, context);
+                      if (is_valid) {
+                        globals.showSnackbar(
+                            AppLocalizations.of(context).calculo_anadido_bbdd,
+                            Colors.green, context);
                       }
-                    },
-                    child: const Icon(Icons.save),
-                    backgroundColor: Color(0xff6f0000),
-                    tooltip: "Guardar cálculo",
-                  )
-                )
-              ),
-              new Visibility(
-                visible: true,
-                  child: Align(
-                    alignment: Alignment.bottomRight,
-                    child: FloatingActionButton(
-                      heroTag: null,
-                      onPressed: () async {
-
-                        _volumen_vino_alcoholizar.text = "";
-                        _grado_vino_alcoholizar.text = "";
-                        _grado_vino_deseado.text = "";
-                        _grado_alcohol_dispone.text = "";
-
-                        bool is_valid = await Navigator.push(
-                          context,
-                          PageRouteBuilder<bool>(
-                            pageBuilder: (context, animation, secondaryAnimation) => DialogNewCalculation(),
-                            fullscreenDialog: true,
-                            transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                              const begin = Offset(1.0, 0.0);
-                              const end = Offset.zero;
-                              const curve = Curves.ease;
-
-                              var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-
-                              return SlideTransition(
-                                position: animation.drive(tween),
-                                child: child,
-                              );
-                            },
-                          ),
-                        );
-
-                        if(is_valid == null) is_valid = false;
-
-                        if(is_valid){
-
-                          decimal_volumen_alcohol_necesario = decimal_volumen_vino_alcoholizar * ((decimal_grado_vino_deseado - decimal_grado_vino_alcoholizar) / (decimal_grado_alcohol_dispone - decimal_grado_vino_deseado));
-
-                          setState(() {
-                            _isVisible = true;
-                          });
-                        }
-                      },
-                      child: const Icon(Icons.add),
-                      backgroundColor: Color(0xff6f0000),
-                      tooltip: "Nuevo cálculo",
-                  ),
-                )
+                    }
+                  },
+                  tooltip: AppLocalizations.of(context).tooltip_guardar_calculo,
+                ),
               ),
             ],
           ),
@@ -506,8 +524,23 @@ class _FortWineState extends State<FortWine> {
                     ),
                   ),
                   ListTile(
+                    leading: Icon(Icons.home_outlined, color: Color(0xff6f0000)),
+                    title: Text(AppLocalizations.of(context).appbar_menu, style: TextStyle(fontSize: 15),),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        PageTransition(type: PageTransitionType.rightToLeft, child: MyHomePage()),
+                      );
+                    },
+                    trailing: Icon(Icons.chevron_right, color: Colors.black),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 12, right: 12),
+                    child: Divider(thickness: 1,),
+                  ),
+                  ListTile(
                     leading: Icon(Icons.calculate_outlined, color: Color(0xff6f0000)),
-                    title: Text('Fortificar Vino', style: TextStyle(fontSize: 15),),
+                    title: Text(AppLocalizations.of(context).fortificar_vino, style: TextStyle(fontSize: 15),),
                     onTap: () {
                       Navigator.pop(context);
                     },
@@ -519,7 +552,7 @@ class _FortWineState extends State<FortWine> {
                   ),
                   ListTile(
                     leading: Icon(Icons.calendar_today_outlined, color: Color(0xff6f0000)),
-                    title: Text('Historial Fortificaciones', style: TextStyle(fontSize: 15),),
+                    title: Text(AppLocalizations.of(context).historial_fortificaciones, style: TextStyle(fontSize: 15),),
                     onTap: () {
                       Navigator.push(
                         context,
@@ -534,7 +567,7 @@ class _FortWineState extends State<FortWine> {
                   ),
                   ListTile(
                     leading: Icon(Icons.calculate_outlined, color: Color(0xff6f0000)),
-                    title: Text('Hidratar Vinagre', style: TextStyle(fontSize: 15),),
+                    title: Text(AppLocalizations.of(context).hidratar_vinagre, style: TextStyle(fontSize: 15),),
                     onTap: () {
                       Navigator.push(
                         context,
@@ -549,7 +582,7 @@ class _FortWineState extends State<FortWine> {
                   ),
                   ListTile(
                     leading: Icon(Icons.calendar_today_outlined, color: Color(0xff6f0000)),
-                    title: Text('Historial Hidrataciones', style: TextStyle(fontSize: 15),),
+                    title: Text(AppLocalizations.of(context).historial_hidrataciones, style: TextStyle(fontSize: 15),),
                     onTap: () {
                       Navigator.push(
                         context,
@@ -581,28 +614,28 @@ class DialogNewCalculation extends StatelessWidget {
 
     if(volumen_vino_alcoholizar.isEmpty){
 
-      showSnackbar('El valor del volumen de vino a alcoholizar es requerido', Color(0xff6f0000), context);
+      globals.showSnackbar(AppLocalizations.of(context).fortificacion_error1, Color(0xff6f0000), context);
 
       return false;
     }
 
     if(grado_vino_alcoholizar.isEmpty){
 
-      showSnackbar('El valor del grado del vino a alcoholizar es requerido', Color(0xff6f0000), context);
+      globals.showSnackbar(AppLocalizations.of(context).fortificacion_error2, Color(0xff6f0000), context);
 
       return false;
     }
 
     if(grado_vino_deseado.isEmpty){
 
-      showSnackbar('El valor del grado del vino que se desea es requerido', Color(0xff6f0000), context);
+      globals.showSnackbar(AppLocalizations.of(context).fortificacion_error3, Color(0xff6f0000), context);
 
       return false;
     }
 
     if(grado_alcohol_dispone.isEmpty){
 
-      showSnackbar('El valor del grado del alcohol del que se dispone es requerido', Color(0xff6f0000), context);
+      globals.showSnackbar(AppLocalizations.of(context).fortificacion_error4, Color(0xff6f0000), context);
 
       return false;
     }
@@ -614,7 +647,7 @@ class DialogNewCalculation extends StatelessWidget {
 
     if(decimal_volumen_vino_alcoholizar.compareTo(Decimal.parse("0")) == 0){
 
-      showSnackbar('El valor del volumen de vino a alcoholizar debe ser un número entero mayor que 0', Color(0xff6f0000), context);
+      globals.showSnackbar(AppLocalizations.of(context).fortificacion_error5, Color(0xff6f0000), context);
 
       return false;
 
@@ -622,7 +655,7 @@ class DialogNewCalculation extends StatelessWidget {
 
     if(decimal_grado_vino_alcoholizar.compareTo(decimal_grado_vino_deseado) == 0){
 
-      showSnackbar('Ya tiene el vino a $decimal_grado_vino_deseadoº GL. No debe añadir nada', Color(0xff6f0000), context);
+      globals.showSnackbar(AppLocalizations.of(context).fortificacion_error6(decimal_grado_vino_deseado.toString()), Color(0xff6f0000), context);
 
       return false;
 
@@ -630,7 +663,7 @@ class DialogNewCalculation extends StatelessWidget {
 
     if(decimal_grado_vino_deseado.compareTo(decimal_grado_vino_alcoholizar) < 0){
 
-      showSnackbar('El grado alcohólico deseado no puede ser menor que el grado del vino a alcoholizar', Color(0xff6f0000), context);
+      globals.showSnackbar(AppLocalizations.of(context).fortificacion_error7, Color(0xff6f0000), context);
 
       return false;
 
@@ -638,7 +671,7 @@ class DialogNewCalculation extends StatelessWidget {
 
     if(decimal_grado_alcohol_dispone.compareTo(decimal_grado_vino_deseado) <= 0){
 
-      showSnackbar('El grado del alcohol del que se dispone no puede ser menor o igual que el grado alcohólico deseado', Color(0xff6f0000), context);
+      globals.showSnackbar(AppLocalizations.of(context).fortificacion_error8, Color(0xff6f0000), context);
 
       return false;
 
@@ -653,7 +686,7 @@ class DialogNewCalculation extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Color(0xff6f0000),
-          title: Text('Datos de la Fortificación'),
+          title: Text(AppLocalizations.of(context).datos_fortificacion),
         ),
         body: Container(
           decoration: BoxDecoration(
@@ -668,14 +701,14 @@ class DialogNewCalculation extends StatelessWidget {
                 children: [
                   Padding(
                       padding: const EdgeInsets.only(bottom: 40, left: 15, right: 15, top: 15),
-                      child: Text("INTRODUCE LOS SIGUIENTES DATOS",
+                      child: Text(AppLocalizations.of(context).introduce_datos,
                           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, fontStyle: FontStyle.italic, fontFeatures: [FontFeature.enable('smcp')]))
                   ),
                   Card(
                     shadowColor: Colors.black,
                     elevation: 25,
                     color: Color(0xfff4eea4),
-                    margin: EdgeInsets.only(left: 20, right: 20),
+                    margin: EdgeInsets.only(left: 20, right: 20, bottom: 15),
                     shape: ContinuousRectangleBorder(
                         borderRadius: BorderRadius.circular(50.0)),
                     child: Column(
@@ -687,7 +720,7 @@ class DialogNewCalculation extends StatelessWidget {
                                   flex: 4,
                                   child: Padding(
                                       padding: const EdgeInsets.only(top: 20, bottom: 12, left: 15, right: 6),
-                                      child: Text("Volumen de vino que se desea alcoholizar (litros)",
+                                      child: Text(AppLocalizations.of(context).volumen_vino_alcoholizar,
                                           style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold))
                                   )
                               ),
@@ -727,7 +760,7 @@ class DialogNewCalculation extends StatelessWidget {
                                   flex: 4,
                                   child: Padding(
                                       padding: const EdgeInsets.only(top: 12, bottom: 12, left: 15, right: 6),
-                                      child: Text("Grado del vino a alcoholizar (% Vol)",
+                                      child: Text(AppLocalizations.of(context).grado_vino,
                                           style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold))
                                   )
                               ),
@@ -767,7 +800,7 @@ class DialogNewCalculation extends StatelessWidget {
                                   flex: 4,
                                   child: Padding(
                                       padding: const EdgeInsets.only(top: 12, bottom: 12, left: 15, right: 6),
-                                      child: Text("Grado del vino que se desea (% Vol)",
+                                      child: Text(AppLocalizations.of(context).grado_deseado,
                                           style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold))
                                   )
                               ),
@@ -807,7 +840,7 @@ class DialogNewCalculation extends StatelessWidget {
                                   flex: 4,
                                   child: Padding(
                                       padding: const EdgeInsets.only(top: 12, bottom: 12, left: 15, right: 6),
-                                      child: Text("Grado del alcohol que se dispone (% Vol)",
+                                      child: Text(AppLocalizations.of(context).grado_alcohol_dispone,
                                           style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold))
                                   )
                               ),
@@ -859,7 +892,7 @@ class DialogNewCalculation extends StatelessWidget {
                                       RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0))
                                   ),
                                 ),
-                                child: const Text("Calcular", style: TextStyle(fontFeatures: [FontFeature.enable('smcp')]),),
+                                child: Text(AppLocalizations.of(context).calcular, style: TextStyle(fontFeatures: [FontFeature.enable('smcp')]),),
                               ),
                             )
                         ),
@@ -889,7 +922,7 @@ class DialogSave extends StatelessWidget {
     String title = _title.text.trim();
 
     if(title.isEmpty){
-      showSnackbar("El título es requerido", Color(0xff6f0000), context);
+      globals.showSnackbar(AppLocalizations.of(context).titulo_requerido, Color(0xff6f0000), context);
 
       return false;
     }
@@ -898,7 +931,7 @@ class DialogSave extends StatelessWidget {
 
       if(!exist) return true;
 
-      showSnackbar("Ya existe una fortificación con ese título", Color(0xff6f0000), context);
+      globals.showSnackbar(AppLocalizations.of(context).fortificacion_existente, Color(0xff6f0000), context);
 
       return false;
     }
@@ -910,7 +943,7 @@ class DialogSave extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Color(0xff6f0000),
-          title: Text('Guardar Cálculo'),
+          title: Text(AppLocalizations.of(context).tooltip_guardar_calculo),
         ),
         body: Container(
           decoration: BoxDecoration(
@@ -925,8 +958,8 @@ class DialogSave extends StatelessWidget {
                   children: [
                     Padding(
                         padding: const EdgeInsets.only(
-                            bottom: 20, left: 15, right: 15, top: 20),
-                        child: Text("INTRODUCE LOS SIGUIENTES DATOS",
+                            bottom: 20, left: 15, right: 15, top: 15),
+                        child: Text(AppLocalizations.of(context).introduce_datos,
                             style: TextStyle(fontSize: 18,
                                 fontWeight: FontWeight.bold,
                                 fontStyle: FontStyle.italic))
@@ -935,7 +968,7 @@ class DialogSave extends StatelessWidget {
                       shadowColor: Colors.black,
                       elevation: 25,
                       color: Color(0xfff4eea4),
-                      margin: EdgeInsets.only(left: 20, right: 20, bottom: 40),
+                      margin: EdgeInsets.only(left: 20, right: 20, bottom: 15),
                       shape: ContinuousRectangleBorder(
                           borderRadius: BorderRadius.circular(50.0)),
                       child: Column(
@@ -943,7 +976,7 @@ class DialogSave extends StatelessWidget {
                           Padding(
                               padding: const EdgeInsets.only(top: 20, bottom: 5, left: 15, right: 6),
                               child: Text(
-                                  "Título",
+                                  AppLocalizations.of(context).titulo,
                                   style: TextStyle(fontSize: 20,
                                       fontWeight: FontWeight.bold))
                           ),
@@ -973,14 +1006,14 @@ class DialogSave extends StatelessWidget {
                           Padding(
                               padding: const EdgeInsets.only(top: 10, bottom: 5, left: 15, right: 6),
                               child: Text(
-                                  "Fecha",
+                                  AppLocalizations.of(context).fecha,
                                   style: TextStyle(fontSize: 20,
                                       fontWeight: FontWeight.bold))
                           ),
                           Padding(
                             padding: const EdgeInsets.only(top: 5, bottom: 10, right: 15, left: 15),
                             child: MyTextFieldDatePicker(
-                              labelText: "Fecha",
+                              labelText: AppLocalizations.of(context).fecha,
                               prefixIcon: Icon(Icons.date_range, color: Color(0xff6f0000),),
                               suffixIcon: Icon(Icons.arrow_drop_down, color: Color(0xff6f0000),),
                               initialDate: DateTime.now(),
@@ -998,7 +1031,7 @@ class DialogSave extends StatelessWidget {
                           Padding(
                               padding: const EdgeInsets.only(top: 10, bottom: 5, left: 15, right: 6),
                               child: Text(
-                                  "Observaciones",
+                                  AppLocalizations.of(context).observaciones,
                                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold))
                           ),
                           Padding(
@@ -1033,8 +1066,22 @@ class DialogSave extends StatelessWidget {
 
                                     if(is_valid){
 
+                                      if(_day.length == 1){
+                                        _day = "0" + _day;
+                                      }
+
                                       if(_month.length == 1){
                                         _month = "0" + _month;
+                                      }
+
+                                      if(_year.length == 1){
+                                        _year = "000" + _year;
+                                      }
+                                      else if(_year.length == 2){
+                                        _year = "00" + _year;
+                                      }
+                                      else if(_year.length == 3){
+                                        _year = "0" + _year;
                                       }
 
                                       String date = _day + "/" + _month + "/" + _year;
@@ -1059,7 +1106,7 @@ class DialogSave extends StatelessWidget {
                                     backgroundColor: MaterialStateProperty.all(Color(0xff6f0000)),
                                     shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0))),
                                   ),
-                                  child: const Text("Guardar", style: TextStyle(fontFeatures: [FontFeature.enable('smcp')]),),
+                                  child: Text(AppLocalizations.of(context).guardar, style: TextStyle(fontFeatures: [FontFeature.enable('smcp')]),),
                                 ),
                               )
                           ),

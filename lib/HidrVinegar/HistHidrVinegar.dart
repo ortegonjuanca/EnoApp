@@ -1,28 +1,18 @@
 import 'dart:io';
-import 'package:enoapp/HistFortWine.dart';
+import 'package:enoapp/FortWine/HistFortWine.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:enoapp/Globals.dart' as globals;
 
-import 'FortWine.dart';
+import '../FortWine/FortWine.dart';
+import '../main.dart';
 import 'Hidr.dart';
 import 'HidrVinegar.dart';
 import 'ShowHidrSaved.dart';
-import 'db_enoapp.dart';
-
-void showSnackbar(String text, Color color, BuildContext context) {
-  final snackBar = SnackBar(
-    content: Text(text),
-    backgroundColor: color,
-    action: SnackBarAction(
-      label: 'Cerrar',
-      textColor: Colors.white,
-      onPressed: () {},
-    ),
-  );
-
-  ScaffoldMessenger.of(context).showSnackBar(snackBar);
-}
+import '../db_enoapp.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HistHidrVinegar extends StatefulWidget {
 
@@ -47,24 +37,32 @@ class _HistHidrVinegarState extends State<HistHidrVinegar> {
   }
 
   Widget buildList() => hidrs == null
-      ? Center(child: CircularProgressIndicator(),)
+      ? Center(child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Color(0xff6f0000))),)
       : ListView.builder(
       itemCount: hidrs.length,
       itemBuilder: (context, index) {
-        final item = hidrs[index];
-        return Dismissible(
-            direction: DismissDirection.endToStart,
+        return Slidable(
+            actionPane: SlidableDrawerActionPane(),
             key: UniqueKey(),
-            background: Container(
-              color: Colors.red,
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              alignment: AlignmentDirectional.centerEnd,
-              child: Icon(
-                Icons.delete,
-                color: Colors.white,
+            secondaryActions: <Widget>[
+              IconSlideAction(
+                  icon: Icons.delete,
+                  color: Colors.red,
+                  onTap: () async {
+                    bool delete = await deleteHidr(hidrs[index].title, context);
+
+                    if(delete == true) {
+                      String title = hidrs[index].title;
+                      await DBEnoApp.deleteHidr(title);
+                      globals.showSnackbar(AppLocalizations.of(context).calculo_eliminado_bbdd(title), Colors.green, context);
+
+                      setState(() {
+                        hidrs.removeAt(index);
+                      });
+                    }
+                  }
               ),
-            ),
-            confirmDismiss: (direction) => deleteHidr(hidrs[index].title, context),
+            ],
             child: Card(
                 shadowColor: Colors.black,
                 elevation: 25,
@@ -100,7 +98,7 @@ class _HistHidrVinegarState extends State<HistHidrVinegar> {
 
     return Scaffold(
         appBar: AppBar(
-          title: Text('Historial Hidrataciones'),
+          title: Text(AppLocalizations.of(context).historial_hidrataciones),
           backgroundColor: Color(0xff6f0000),
           leading: IconButton (
               icon:Icon(Icons.arrow_back),
@@ -141,8 +139,23 @@ class _HistHidrVinegarState extends State<HistHidrVinegar> {
                     ),
                   ),
                   ListTile(
+                    leading: Icon(Icons.home_outlined, color: Color(0xff6f0000)),
+                    title: Text(AppLocalizations.of(context).appbar_menu, style: TextStyle(fontSize: 15),),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        PageTransition(type: PageTransitionType.rightToLeft, child: MyHomePage()),
+                      );
+                    },
+                    trailing: Icon(Icons.chevron_right, color: Colors.black),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 12, right: 12),
+                    child: Divider(thickness: 1,),
+                  ),
+                  ListTile(
                     leading: Icon(Icons.calculate_outlined, color: Color(0xff6f0000)),
-                    title: Text('Fortificar Vino', style: TextStyle(fontSize: 15),),
+                    title: Text(AppLocalizations.of(context).fortificar_vino, style: TextStyle(fontSize: 15),),
                     onTap: () {
                       Navigator.push(
                         context,
@@ -157,7 +170,7 @@ class _HistHidrVinegarState extends State<HistHidrVinegar> {
                   ),
                   ListTile(
                     leading: Icon(Icons.calendar_today_outlined, color: Color(0xff6f0000)),
-                    title: Text('Historial Fortificaciones', style: TextStyle(fontSize: 15),),
+                    title: Text(AppLocalizations.of(context).historial_fortificaciones, style: TextStyle(fontSize: 15),),
                     onTap: () async {
                       Navigator.push(
                         context,
@@ -172,7 +185,7 @@ class _HistHidrVinegarState extends State<HistHidrVinegar> {
                   ),
                   ListTile(
                     leading: Icon(Icons.calculate_outlined, color: Color(0xff6f0000)),
-                    title: Text('Hidratar Vinagre', style: TextStyle(fontSize: 15),),
+                    title: Text(AppLocalizations.of(context).hidratar_vinagre, style: TextStyle(fontSize: 15),),
                     onTap: () {
                       Navigator.push(
                         context,
@@ -187,7 +200,7 @@ class _HistHidrVinegarState extends State<HistHidrVinegar> {
                   ),
                   ListTile(
                     leading: Icon(Icons.calendar_today_outlined, color: Color(0xff6f0000)),
-                    title: Text('Historial Hidrataciones', style: TextStyle(fontSize: 15),),
+                    title: Text(AppLocalizations.of(context).historial_hidrataciones, style: TextStyle(fontSize: 15),),
                     onTap: () {
                       Navigator.pop(context);
                     },
@@ -206,57 +219,5 @@ class _HistHidrVinegarState extends State<HistHidrVinegar> {
 }
 
 Future<bool> deleteHidr(String title, BuildContext context) async {
-
-  if (!Platform.isIOS) {
-    return showDialog(
-        context: context,
-        builder: (BuildContext context) => AlertDialog(
-          title: new Text("¿Estás seguro que desea eliminar '$title'?"),
-          content: new Text("Esta acción es irreversible"),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('Si', style: TextStyle(color: Colors.blue, fontSize: 18)),
-              onPressed: () async {
-                await DBEnoApp.deleteHidr(title);
-                Navigator.of(context).pop(true);
-
-                showSnackbar("'$title' ha sido eliminado correctamente", Colors.green, context);
-              },
-            ),
-            TextButton(
-              child: const Text('No', style: TextStyle(color: Colors.red, fontSize: 18),),
-              onPressed: () {
-                Navigator.of(context).pop(false);
-              },
-            ),
-          ],
-        )
-    ) ??
-
-        false;
-  }
-
-  return showDialog(
-      context: context,
-      builder: (BuildContext context) => CupertinoAlertDialog(
-        title: new Text("¿Estás seguro que desea eliminar '$title'?"),
-        content: new Text("Esta acción es irreversible"),
-        actions: <Widget>[
-          CupertinoDialogAction(
-            onPressed: () async {
-              await DBEnoApp.deleteHidr(title);
-              Navigator.of(context).pop(true);
-
-              showSnackbar("'$title' ha sido eliminado correctamente", Colors.green, context);
-            },
-            child: Text("Si"),
-          ),
-          CupertinoDialogAction(
-            onPressed: () => Navigator.of(context).pop(false),
-            child: Text("No", style: TextStyle(color: Colors.red)),
-          )
-        ],
-      )
-  ) ??
-      false;
+  return await globals.show_dialog_acept_cancel(title, context);
 }

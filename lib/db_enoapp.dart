@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-import 'Fort.dart';
-import 'Hidr.dart';
+import 'FortWine/Fort.dart';
+import 'HidrVinegar/Hidr.dart';
 
 class DBEnoApp {
 

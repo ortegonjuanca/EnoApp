@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MyTextFieldDatePicker extends StatefulWidget {
   final ValueChanged<DateTime> onDateChanged;
@@ -76,28 +77,6 @@ class _MyTextFieldDatePicker extends State<MyTextFieldDatePicker> {
     _controllerDate.dispose();
     super.dispose();
   }
-
-  /*Future<Null> _selectDate(BuildContext context) async {
-    final DateTime pickedDate = await showDatePicker(
-      context: context,
-      initialDate: _selectedDate,
-      firstDate: widget.firstDate,
-      lastDate: widget.lastDate,
-      helpText: "Selecciona la fecha",
-      cancelText: "Cancelar",
-      confirmText: "OK",
-    );
-
-    if (pickedDate != null && pickedDate != _selectedDate) {
-      _selectedDate = pickedDate;
-      _controllerDate.text = _dateFormat.format(_selectedDate);
-      widget.onDateChanged(_selectedDate);
-    }
-
-    if (widget.focusNode != null) {
-      widget.focusNode.nextFocus();
-    }
-  }*/
 
   Future<Null> _selectDate(BuildContext context) {
     showModalBottomSheet(

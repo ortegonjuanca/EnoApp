@@ -1,0 +1,105 @@
+{
+    "language": "English",
+    "codigo_lenguaje": "en",
+
+    "appbar_menu": "Main Menu",
+    "tooltip_menu_navegacion": "Navigation Menu",
+    "tooltip_ajustes": "Settings",
+    "snackbar_cerrar": "Close",
+    "cancelar": "Cancel",
+    "aceptar": "Confirm",
+    "tooltip_eliminar_calculo": "Remove Calculation",
+    "tooltip_nuevo_calculo": "New Calculation",
+    "tooltip_editar_calculo": "Edit Calculation",
+    "tooltip_guardar_calculo": "Save Calculation",
+    "calcular": "Calculate",
+    "guardar": "Save",
+    "titulo": "Title",
+    "fecha": "Date",
+    "observaciones": "Notes",
+
+    "fortificar_vino": "Fortify Wine",
+    "hidratar_vinagre": "Hydrate Vinegar",
+    "historial_fortificaciones": "Historical Fortifications",
+    "historial_hidrataciones": "Historical Hydrations",
+
+    "volumen_vino_alcoholizar": "Volume of wine to be fortified (liters)",
+    "grado_vino": "Alcoholic strength of the wine to be fortified (% Vol)",
+    "grado_deseado": "Alcoholic strength of the wine desired (% Vol)",
+    "grado_alcohol_dispone": "Alcoholic strength available (% Vol)",
+    "volumen_alcohol_necesario": "Volume of alcohol required (liters)",
+    "datos_fortificacion": "Fortification Data",
+    "calculo_anadido_bbdd": "The calculation has been added to the database correctly",
+    "fortificacion_error1": "The value of the volume of wine to be fortified is required",
+    "fortificacion_error2": "The value of alcoholic strength of the wine to be fortified is required.",
+    "fortificacion_error3": "The value of the desired alcoholic strength of the wine is required",
+    "fortificacion_error4": "The value of the alcoholic strength available is required",
+    "fortificacion_error5": "The value of the volume of wine to be fortified must be a whole number greater than 0",
+    "fortificacion_error6": "You already have the wine at {decimal_grado_vino_deseado}º GL. Do not add anything",
+    "@fortificacion_error6": {
+        "placeholders": {
+            "decimal_grado_vino_deseado": {
+                "type": "String"
+            }
+        }
+    },
+    "fortificacion_error7": "The desired alcoholic strength may not be less than the alcoholic strength of the wine to be fortified",
+    "fortificacion_error8": "The strength of the alcohol available may not be less than or equal to the desired alcoholic strength",
+
+    "introduce_datos": "ENTER THE FOLLOWING DATA",
+
+    "titulo_requerido": "Title is required",
+    "fortificacion_existente": "A fortification with that title already exists",
+
+    "calculo_eliminado_bbdd": "'{title}' has been correctly removed",
+    "@calculo_eliminado_bbdd": {
+        "placeholders": {
+            "title": {
+                "type": "String"
+            }
+        }
+    },
+
+    "no_observaciones": "No notes provided",
+    "editado_correctamente": "It has been correctly edited",
+    "tooltip_eliminar_fortificacion": "Remove Fortification",
+    "tooltip_editar_fortificacion": "Edit Fortification",
+
+    "volumen_vinagre_hidratar": "Volume of vinegar to be hydrated (liters)",
+    "grado_vinagre": "Degree of vinegar to be hydrated (% Vol)",
+    "grado_vinagre_deseado": "Desired vinegar degree (% Vol)",
+    "volumen_agua_necesaria": "Volume of water to be added (liters)",
+
+    "datos_hidratacion": "Hydratation Data",
+
+    "hidratacion_error1": "The value of the volume of vinegar to be hydrated is required",
+    "hidratacion_error2": "The value of the degree of vinegar to be hydrated is required",
+    "hidratacion_error3": "The value of the desired vinegar degree is required",
+    "hidratacion_error4": "The value of the volume of vinegar to be hydrated must be a whole number greater than 0",
+    "hidratacion_error5": "The desired vinegar acetic strength value must be a whole number greater than 0",
+    "hidratacion_error6": "You already have the vinegar at {decimal_grado_vinagre_deseado}º. Do not add anything",
+    "@hidratacion_error6": {
+        "placeholders": {
+            "decimal_grado_vinagre_deseado": {
+                "type": "String"
+            }
+        }
+    },
+    "hidratacion_error7": "The desired acetic strength must not be higher than the degree of the vinegar to be hydrated",
+
+    "hidratacion_existente": "A hydratation with that title already exists",
+
+    "tooltip_eliminar_hidratacion": "Remove Hydratation",
+    "tooltip_editar_hidratacion": "Edit Hydratation",
+
+    "seguro_eliminar": "Are you sure you want to delete '{title}'?",
+    "@seguro_eliminar": {
+        "placeholders": {
+            "title": {
+                "type": "String"
+            }
+        }
+    },
+
+    "accion_irreversible": "This action is irreversible"
+}

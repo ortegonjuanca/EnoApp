@@ -1,16 +1,15 @@
 import 'dart:ui';
-import 'package:enoapp/HistFortWine.dart';
-import 'package:enoapp/HistHidrVinegar.dart';
+import 'package:enoapp/FortWine/HistFortWine.dart';
+import 'package:enoapp/HidrVinegar/HistHidrVinegar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:enoapp/FortWine.dart';
-import 'package:enoapp/HidrVinegar.dart';
+import 'package:enoapp/FortWine/FortWine.dart';
+import 'package:enoapp/HidrVinegar/HidrVinegar.dart';
 import 'package:flutter/services.dart';
 import 'package:page_transition/page_transition.dart';
-
-import 'dart:async';
-import 'package:path/path.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:animated_splash_screen/animated_splash_screen.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() async {
 
@@ -26,19 +25,31 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      localizationsDelegates: [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: [
+        const Locale('en'), // English
+        const Locale('es'), // Spanish
+      ],
+      debugShowCheckedModeBanner: false,
       title: 'EnoApp',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: MyHomePage(title: 'Menú Principal'),
+      /*home: AnimatedSplashScreen(
+        splash: Image.asset('images/logo.png'),
+        nextScreen: MyHomePage(title: "Menú Principal"),
+        splashTransition: SplashTransition.sizeTransition,
+        pageTransitionType: PageTransitionType.leftToRight,
+      )*/
+      home: MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  final String title;
+  MyHomePage({Key key}) : super(key: key);
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -52,7 +63,25 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Color(0xff6f0000),
-          title: Text(widget.title),
+          title: Text(AppLocalizations.of(context).appbar_menu),
+          leading: Builder(
+            builder: (BuildContext context) {
+              return IconButton(
+                icon: Icon(Icons.menu),
+                onPressed: () {
+                  Scaffold.of(context).openDrawer();
+                },
+                tooltip: AppLocalizations.of(context).tooltip_menu_navegacion,
+              );
+            },
+          ),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.settings),
+              tooltip: AppLocalizations.of(context).tooltip_ajustes,
+              onPressed: () {},
+            ),
+          ],
         ),
         body: Container(
           decoration: BoxDecoration(
@@ -90,7 +119,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0))
                             ),
                           ),
-                          child: const Text("Fortificar Vino", style: TextStyle(fontSize: 18, fontFeatures: [FontFeature.enable('smcp')]),),
+                          child: Text(AppLocalizations.of(context).fortificar_vino, textAlign: TextAlign.center, style: TextStyle(fontSize: 18, fontFeatures: [FontFeature.enable('smcp')]),),
                         ),
                       )
                   ),
@@ -112,7 +141,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0))
                           ),
                         ),
-                        child: const Text("Historial Fortificaciones", style: TextStyle(fontSize: 18, fontFeatures: [FontFeature.enable('smcp')]),),
+                        child: Text(AppLocalizations.of(context).historial_fortificaciones, textAlign: TextAlign.center, style: TextStyle(fontSize: 18, fontFeatures: [FontFeature.enable('smcp')]),),
                       ),
                     ),
                   ),
@@ -138,14 +167,14 @@ class _MyHomePageState extends State<MyHomePage> {
                               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0))
                           ),
                         ),
-                        child: const Text("Hidratar Vinagre", style: TextStyle(fontSize: 18, fontFeatures: [FontFeature.enable('smcp')]),),
+                        child: Text(AppLocalizations.of(context).hidratar_vinagre, textAlign: TextAlign.center, style: TextStyle(fontSize: 18, fontFeatures: [FontFeature.enable('smcp')]),),
                       ),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 10, bottom: 40, left: 50, right: 50),
                     child: SizedBox(
-                      width: 500,
+                      width: 400,
                       height: 70,
                       child: ElevatedButton(
                         onPressed: () {
@@ -160,7 +189,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0))
                           ),
                         ),
-                        child: const Text("Historial Hidrataciones", style: TextStyle(fontSize: 18, fontFeatures: [FontFeature.enable('smcp')]),),
+                        child: Text(AppLocalizations.of(context).historial_hidrataciones, textAlign: TextAlign.center, style: TextStyle(fontSize: 18, fontFeatures: [FontFeature.enable('smcp')]),),
                       ),
                     ),
                   ),
@@ -195,8 +224,20 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                     ),
                     ListTile(
+                      leading: Icon(Icons.home_outlined, color: Color(0xff6f0000)),
+                      title: Text(AppLocalizations.of(context).appbar_menu, style: TextStyle(fontSize: 15),),
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      trailing: Icon(Icons.chevron_right, color: Colors.black),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 12, right: 12),
+                      child: Divider(thickness: 1,),
+                    ),
+                    ListTile(
                       leading: Icon(Icons.calculate_outlined, color: Color(0xff6f0000)),
-                      title: Text('Fortificar Vino', style: TextStyle(fontSize: 15),),
+                      title: Text(AppLocalizations.of(context).fortificar_vino, style: TextStyle(fontSize: 15),),
                       onTap: () {
                         Navigator.push(
                           context,
@@ -211,7 +252,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                     ListTile(
                       leading: Icon(Icons.calendar_today_outlined, color: Color(0xff6f0000)),
-                      title: Text('Historial Fortificaciones', style: TextStyle(fontSize: 15),),
+                      title: Text(AppLocalizations.of(context).historial_fortificaciones, style: TextStyle(fontSize: 15),),
                       onTap: () async {
                         Navigator.push(
                             context,
@@ -226,7 +267,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                     ListTile(
                       leading: Icon(Icons.calculate_outlined, color: Color(0xff6f0000)),
-                      title: Text('Hidratar Vinagre', style: TextStyle(fontSize: 15),),
+                      title: Text(AppLocalizations.of(context).hidratar_vinagre, style: TextStyle(fontSize: 15),),
                       onTap: () {
                         Navigator.push(
                             context,
@@ -241,7 +282,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                     ListTile(
                       leading: Icon(Icons.calendar_today_outlined, color: Color(0xff6f0000)),
-                      title: Text('Historial Hidrataciones', style: TextStyle(fontSize: 15),),
+                      title: Text(AppLocalizations.of(context).historial_hidrataciones, style: TextStyle(fontSize: 15),),
                       onTap: () {
                         Navigator.push(
                             context,
