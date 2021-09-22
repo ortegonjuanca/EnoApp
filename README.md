@@ -6,7 +6,7 @@ Esta aplicación se divide fundamentalmente en dos bloques.
 
 1. Fortificación de un vino:
 
-  La fortificación consiste, básicamente, en añadir alcohol durante, antes o después del proceso de fermentación. Esto da como resultado un vino de mayor graduación alcohólica, de mayor textura y sabores más robustos.
+        La fortificación consiste, básicamente, en añadir alcohol durante, antes o después del proceso de fermentación. Esto da como resultado un vino de mayor graduación alcohólica, de mayor textura y sabores más robustos.
 
   Con esta aplicación podrás calcular el volumen necesario de alcohol que debes añadir para aumentar la graduación alcohólica de un vino. Para obtener dicha cantidad tendrás que ingresar ciertos datos como son el volumen de vino que se desea alcoholizar, el grado alcohólico del vino en cuestión, el grado deseado que se quiere alcanzar y por último, el grado del alcohol que se dispone.
 
