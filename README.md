@@ -4,7 +4,7 @@
 
 Esta aplicación se divide fundamentalmente en dos bloques.
 
-1 - Fortificación de un vino:
+1. Fortificación de un vino:
 
 La fortificación consiste, básicamente, en añadir alcohol durante, antes o después del proceso de fermentación. Esto da como resultado un vino de mayor graduación alcohólica, de mayor textura y sabores más robustos.
 
