@@ -1,7 +1,5 @@
 # Enoapp
 
-<h1>EnoApp</h1>
-
 <h2>Español</h2>
 
 Esta aplicación se divide fundamentalmente en dos bloques.
@@ -21,3 +19,24 @@ Con esta aplicación podrás calcular el volumen necesario de agua que debes añ
 Además, podrás guardar dichos resultados en tu móvil para poder verlos en un futuro.
 
 Esta aplicación no tiene en cuenta la contracción de volumen, que se produce al realizar la mezcla.
+
+
+<h2>English</h2>
+
+This application is basically divided into two blocks.
+
+1 - Fortification of a wine:
+
+Fortification basically consists of adding alcohol during, before or after the fermentation process. This results in a wine with a higher alcohol content, greater texture and more robust flavours.
+
+With this application you can calculate the necessary volume of alcohol to be added to increase the alcohol content of a wine. To obtain this amount, you will have to enter certain data such as the volume of wine you want to alcoholise, the alcoholic degree of the wine in question, the desired degree you want to achieve and, finally, the degree of alcohol you have.
+
+2 - Hydration of a vinegar:
+
+The hydration of a vinegar consists of adding water to adjust the acetic degree of the vinegar. 
+
+With this application you can calculate the volume of water needed to reduce the acetic content of a vinegar. To obtain that amount you will have to enter certain data such as the volume of vinegar you want to hydrate, the acetic degree of the vinegar in question and, finally, the acetic degree you want to achieve.
+
+You will also be able to save these results on your mobile phone so that you can see them in the future.
+
+This application does not take into account the volume contraction, which occurs when mixing.
