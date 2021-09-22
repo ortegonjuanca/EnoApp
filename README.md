@@ -20,6 +20,7 @@ Además, podrás guardar dichos resultados en tu móvil para poder verlos en un 
 
 Esta aplicación no tiene en cuenta la contracción de volumen, que se produce al realizar la mezcla.
 
+**Puedes descargarla en Google Play Store (https://play.google.com/store/apps/details?id=com.enoapp)**
 
 <h2>English</h2>
 
@@ -40,3 +41,5 @@ With this application you can calculate the volume of water needed to reduce the
 You will also be able to save these results on your mobile phone so that you can see them in the future.
 
 This application does not take into account the volume contraction, which occurs when mixing.
+
+**You can donwload it from Google Play Store (https://play.google.com/store/apps/details?id=com.enoapp&hl=en&gl=US)**
