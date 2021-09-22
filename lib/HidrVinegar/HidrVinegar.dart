@@ -16,7 +16,7 @@ import '../db_enoapp.dart';
 import 'package:enoapp/Globals.dart' as globals;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-var formatter = NumberFormat("###,###.0#", "es_ES");
+var formatter;
 
 TextEditingController _volumen_vinagre_hidratar = TextEditingController();
 TextEditingController _grado_vinagre_hidratar = TextEditingController();
@@ -48,6 +48,13 @@ class _HidrVinegarState extends State<HidrVinegar> {
 
   @override
   Widget build(BuildContext context) {
+
+    if(AppLocalizations.of(context).language == "Español") {
+      formatter = NumberFormat("###,###.0#", "es_ES");
+    }
+    else{
+      formatter = NumberFormat("###,###.0#", "en_EN");
+    }
 
     return Scaffold(
         appBar: AppBar(

@@ -36,22 +36,24 @@ class _MyTextFieldDatePicker extends State<MyTextFieldDatePicker> {
 
   @override
   void initState() {
-    super.initState();
-
-    if (widget.dateFormat != null) {
-      _dateFormat = widget.dateFormat;
-    } else {
-      _dateFormat = DateFormat.yMMMMEEEEd();
-    }
 
     _selectedDate = widget.initialDate;
 
-    _controllerDate = TextEditingController();
-    _controllerDate.text = _dateFormat.format(_selectedDate);
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+
+    if (widget.dateFormat != null) {
+      _dateFormat = widget.dateFormat;
+    } else {
+      _dateFormat = DateFormat.yMMMMEEEEd(AppLocalizations.of(context).codigo_lenguaje);
+    }
+
+    _controllerDate = TextEditingController();
+    _controllerDate.text = _dateFormat.format(_selectedDate);
+
     return TextField(
       focusNode: widget.focusNode,
       controller: _controllerDate,

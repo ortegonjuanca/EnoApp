@@ -19,7 +19,7 @@ import '../HidrVinegar/HistHidrVinegar.dart';
 import '../MyTextFieldDatePicker.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-var formatter = NumberFormat("###,###.0#", "es_ES");
+var formatter;
 
 class ShowFortSaved extends StatefulWidget {
 
@@ -45,16 +45,6 @@ class _ShowFortSavedState extends State<ShowFortSaved> {
   _ShowFortSavedState(Fort fort){
     this.fort = fort;
 
-    if(this.fort.note.isEmpty){
-      //note = AppLocalizations.of(context).no_observaciones;
-      note = "No se han proporcionado observaciones";
-      textAlign_note = TextAlign.center;
-    }
-    else{
-      note = this.fort.note;
-      textAlign_note = TextAlign.start;
-    }
-
     decimal_volumen_vino_alcoholizar = Decimal.parse(fort.volumen_vino_alcoholizar);
     decimal_grado_vino_alcoholizar = Decimal.parse(fort.grado_vino);
     decimal_grado_vino_deseado = Decimal.parse(fort.grado_deseado);
@@ -69,6 +59,22 @@ class _ShowFortSavedState extends State<ShowFortSaved> {
 
   @override
   Widget build(BuildContext context) {
+
+    if(AppLocalizations.of(context).language == "Español") {
+      formatter = NumberFormat("###,###.0#", "es_ES");
+    }
+    else{
+      formatter = NumberFormat("###,###.0#", "en_EN");
+    }
+
+    if(this.fort.note.isEmpty){
+      note = AppLocalizations.of(context).no_observaciones;
+      textAlign_note = TextAlign.center;
+    }
+    else{
+      note = this.fort.note;
+      textAlign_note = TextAlign.start;
+    }
 
     return WillPopScope(
         onWillPop: () {
@@ -378,8 +384,7 @@ class _ShowFortSavedState extends State<ShowFortSaved> {
 
                       setState(() {
                         if(this.fort.note.isEmpty){
-                          //note = AppLocalizations.of(context).no_observaciones;
-                          note = "No se han proporcionado observaciones";
+                          note = AppLocalizations.of(context).no_observaciones;
                           textAlign_note = TextAlign.center;
                         }
                         else{

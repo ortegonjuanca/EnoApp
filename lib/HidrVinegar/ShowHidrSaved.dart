@@ -19,7 +19,7 @@ import '../MyTextFieldDatePicker.dart';
 import '../db_enoapp.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-var formatter = NumberFormat("###,###.0#", "es_ES");
+var formatter;
 
 class ShowHidrSaved extends StatefulWidget {
 
@@ -44,15 +44,6 @@ class _ShowHidrSavedState extends State<ShowHidrSaved> {
   _ShowHidrSavedState(Hidr hidr){
     this.hidr = hidr;
 
-    if(this.hidr.note.isEmpty){
-      note = "No se han proporcionado observaciones";
-      textAlign_note = TextAlign.center;
-    }
-    else{
-      note = this.hidr.note;
-      textAlign_note = TextAlign.start;
-    }
-
     decimal_volumen_vinagre_hidratar = Decimal.parse(hidr.volumen_vinagre_hidratar);
     decimal_grado_vinagre_hidratar = Decimal.parse(hidr.grado_vinagre);
     decimal_grado_vinagre_deseado = Decimal.parse(hidr.grado_deseado);
@@ -66,6 +57,22 @@ class _ShowHidrSavedState extends State<ShowHidrSaved> {
 
   @override
   Widget build(BuildContext context) {
+
+    if(AppLocalizations.of(context).language == "Español") {
+      formatter = NumberFormat("###,###.0#", "es_ES");
+    }
+    else{
+      formatter = NumberFormat("###,###.0#", "en_EN");
+    }
+
+    if(this.hidr.note.isEmpty){
+      note = AppLocalizations.of(context).no_observaciones;
+      textAlign_note = TextAlign.center;
+    }
+    else{
+      note = this.hidr.note;
+      textAlign_note = TextAlign.start;
+    }
 
     return WillPopScope(
         onWillPop: () {
@@ -330,7 +337,7 @@ class _ShowHidrSavedState extends State<ShowHidrSaved> {
 
                           setState(() {
                             if(this.hidr.note.isEmpty){
-                              note = "No se han proporcionado observaciones";
+                              note = AppLocalizations.of(context).no_observaciones;
                               textAlign_note = TextAlign.center;
                             }
                             else{

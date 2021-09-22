@@ -75,13 +75,13 @@ class _MyHomePageState extends State<MyHomePage> {
               );
             },
           ),
-          actions: [
+          /*actions: [
             IconButton(
               icon: const Icon(Icons.settings),
               tooltip: AppLocalizations.of(context).tooltip_ajustes,
               onPressed: () {},
             ),
-          ],
+          ],*/
         ),
         body: Container(
           decoration: BoxDecoration(
