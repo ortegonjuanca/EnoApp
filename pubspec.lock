@@ -91,7 +91,7 @@ packages:
       name: cupertino_icons
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.3"
+    version: "1.0.5"
   decimal:
     dependency: "direct main"
     description:
@@ -230,14 +230,14 @@ packages:
       name: sqflite
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0+3"
+    version: "2.0.2"
   sqflite_common:
     dependency: transitive
     description:
       name: sqflite_common
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0+2"
+    version: "2.0.1+1"
   stack_trace:
     dependency: transitive
     description:
@@ -309,5 +309,10 @@ packages:
     source: hosted
     version: "2.2.1"
 sdks:
+<<<<<<< Updated upstream
   dart: ">=2.17.0-0 <3.0.0"
   flutter: ">=1.24.0-10"
+=======
+  dart: ">=2.12.0 <3.0.0"
+  flutter: ">=1.10.0"
+>>>>>>> Stashed changes
